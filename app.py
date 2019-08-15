@@ -42,19 +42,18 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
-        word = event.message.text
-        if word == "你好":
-            message = TextSendMessgae(text="Hello#")
-        else:
-            message = TextSendMessage(text="抱歉我不了解#")
-        if word == "幹":
-            message = TextSendMessage(text="派欸")
-        if word == "AMD":
-            message = TextSendMessage(text="Yes!")
-        # if word == "天氣"：
-        #     WeatherForeCast.ForeCast()
-        line_bot_api.reply_message(event.reply_token, message)
-
+    word = event.message.text
+    if word == "你好":
+        message = TextSendMessgae(text="Hello#")
+    else:
+        message = TextSendMessage(text="抱歉我不了解#")
+    if word == "幹":
+        message = TextSendMessage(text="派欸")
+    if word == "AMD":
+        message = TextSendMessage(text="Yes!")
+    # if word == "天氣":
+    #     WeatherForeCast.ForeCast()
+    line_bot_api.reply_message(event.reply_token, message)
 
 if __name__ == "__main__":
     app.run()
