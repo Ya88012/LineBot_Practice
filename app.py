@@ -45,6 +45,8 @@ def handle_message(event):
             message = TextSendMessgae(text="Hello#")
         else:
             message = TextSendMessage(text="抱歉我不了解#")
+        if word == "幹":
+            message = TextSendMessage(text="派欸")
         line_bot_api.reply_message(event.reply_token, message)
 
 
