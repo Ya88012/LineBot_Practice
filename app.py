@@ -10,6 +10,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
+from engine import WeatherForecast
+
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
@@ -40,13 +42,17 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
-        Word = event.message.text
+        word = event.message.text
         if word == "你好":
             message = TextSendMessgae(text="Hello#")
         else:
             message = TextSendMessage(text="抱歉我不了解#")
         if word == "幹":
             message = TextSendMessage(text="派欸")
+        if word == "AMD":
+            message = TextSendMessage(text="Yes!")
+        # if word == "天氣"：
+        #     WeatherForeCast.ForeCast()
         line_bot_api.reply_message(event.reply_token, message)
 
 
