@@ -44,7 +44,7 @@ def handle_message(event):
     #     TextSendMessage(text=event.message.text))
     word = event.message.text
     if word == "你好":
-        message = TextSendMessgae(text="Hello#你好")
+        message = TextSendMessage(text="Hello#你好")
     else:
         message = TextSendMessage(text="抱歉我不了解#")
     if word == "幹":
