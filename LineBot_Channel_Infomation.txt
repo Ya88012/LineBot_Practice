@@ -1,0 +1,8 @@
+Channel ID.
+1609192963
+Channel secret.
+b870f02c816b775a2dd5013c84cac78d
+Channel access token (long-lived).
+SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=
+GitHub.
+https://github.com/Ya88012/LineBot_Practice.git
