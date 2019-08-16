@@ -55,7 +55,7 @@ def handle_message(event):
         message = TextSendMessage(text="抱歉我不了解#")
     if word == "Osu":
         message = TextSendMessage(text="Yes!")
-        WorkSheet.update_cell(1, 2, "Yes!")
+        WorkSheet.update_cell(1, 2, "YesYes!")
     line_bot_api.reply_message(event.reply_token, message)
 
 
