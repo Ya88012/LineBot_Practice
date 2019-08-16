@@ -58,7 +58,7 @@ def handle_message(event):
     if word == "Osu":
         message = TextSendMessage(text="Yes!")
         WorkSheet.update_cell(1, 1, "Yes!Yes!Yes!")
-    if word == "天氣"
+    if word == "天氣":
         @handler.add(MessageEvent, message=LocationMessage)
         def handle_message(event):
             lon = float(event.message.longitude)
