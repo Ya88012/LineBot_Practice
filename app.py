@@ -60,7 +60,7 @@ def handle_message(event):
 
 
     if word == "#獲得群組成員ID&資料內容":
-    groupid = event.source.groud_id
+        groupid = event.source.groud_id
     i = 0
     member_ids_res = line_bot_api.get_group_member_ids(groupid)
     for member_id in member_ids_res:
