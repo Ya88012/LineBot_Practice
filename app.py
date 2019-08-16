@@ -63,7 +63,8 @@ def handle_message(event):
         def handle_message(event):
             lon = float(event.message.longitude)
             lat = float(event.message.latitude)
-            WeatherForecast.ForeCast(lat, lon)
+            result = WeatherForecast.ForeCast(lat, lon)
+            message = TextSendMessage(text=result)
     line_bot_api.reply_message(event.reply_token, message)
 
 
