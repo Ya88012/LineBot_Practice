@@ -57,18 +57,12 @@ def handle_message(event):
     if word == "Osu":
         message = TextSendMessage(text="Yes!")
         WorkSheet.update_cell(1, 1, "Yes!Yes!Yes!")
-    
-    # if word == "天氣":
-    #     @handler.add(MessageEvent, message=LocationMessage)
-    #     def handle_message(event):
-    #         lon = float(event.message.longitude)
-    #         lat = float(event.message.latitude)
-    #         result = WeatherForecast.ForeCast(lat, lon)
-    #         message = TextSendMessage(text=result)
+
 
     if word == "#獲得群組成員ID&資料內容":
+    groupid = event.source.groud_id
     i = 0
-    member_ids_res = line_bot_api.get_group_member_ids(group_id)
+    member_ids_res = line_bot_api.get_group_member_ids(groupid)
     for member_id in member_ids_res:
         WorkSheet.append_row(member_id)
         profile = line_bot_api.get_profile(member_id)
