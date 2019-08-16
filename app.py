@@ -11,11 +11,20 @@ from linebot.models import (
 )
 
 from engine import WeatherForecast
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
 
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('b870f02c816b775a2dd5013c84cac78d')
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+creds = ServiceAccountCredentials.from_json_keyfile_name("MyLineBotDataBaseSheetKey", scope)
+client = gspread.authorize(creds)
+SpreadSheet = client.open("MyLineBotData")
+WorkSheet = SpreadSheet.worksheet("AA")
+
 
 
 @app.route("/callback", methods=['POST'])
@@ -47,13 +56,11 @@ def handle_message(event):
         message = TextSendMessage(text="Hello#你好")
     else:
         message = TextSendMessage(text="抱歉我不了解#")
-    if word == "幹":
-        message = TextSendMessage(text="派欸")
-    if word == "AMD":
+    if word == "Osu":
         message = TextSendMessage(text="Yes!")
-    # if word == "天氣":
-    #     WeatherForeCast.ForeCast()
+        WorkSheet.update_cell(1, 2, "Yes!")
     line_bot_api.reply_message(event.reply_token, message)
+
 
 import os
 if __name__ == "__main__":
