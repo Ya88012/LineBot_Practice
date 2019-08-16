@@ -14,6 +14,7 @@ from engine import WeatherForecast
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('b870f02c816b775a2dd5013c84cac78d')
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -21,6 +22,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("MyLineBotDataBaseSheet
 client = gspread.authorize(creds)
 SpreadSheet = client.open("MyLineBotData")
 WorkSheet = SpreadSheet.worksheet("AA")
+
 
 app = Flask(__name__)
 
@@ -55,7 +57,13 @@ def handle_message(event):
         message = TextSendMessage(text="抱歉我不了解#")
     if word == "Osu":
         message = TextSendMessage(text="Yes!")
-        WorkSheet.update_cell(1, 2, "YesYes!Yes!")
+        WorkSheet.update_cell(1, 1, "Yes!Yes!Yes!")
+    if word == "天氣"
+        @handler.add(MessageEvent, message=LocationMessage)
+        def handle_message(event):
+            lon = float(event.message.longitude)
+            lat = float(event.message.latitude)
+            WeatherForecast.ForeCast(lat, lon)
     line_bot_api.reply_message(event.reply_token, message)
 
 

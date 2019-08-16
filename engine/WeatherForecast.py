@@ -2,7 +2,7 @@ import requests
 import csv
 from math import *
 
-def ForeCast():
+def ForeCast(lat, lon):
 	result = ""
 	def geodistance(lng1, lat1, lng2, lat2):
 		lng1, lat1, lng2, lat2 = map(radians, [lng1, lat1, lng2, lat2])
