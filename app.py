@@ -60,7 +60,7 @@ def handle_message(event):
 
 
     if word == "#獲得群組成員ID&資料內容":
-        groupid = event.source.groud_id
+        groupid = event.source.group_id
     i = 0
     member_ids_res = line_bot_api.get_group_member_ids(groupid)
     for member_id in member_ids_res:
@@ -70,6 +70,7 @@ def handle_message(event):
         WorkSheet.update_cell(i, 3, profile.picture_url)
         WorkSheet.update_cell(i, 4, profile.status_message)
         i += 1
+    message = TextSendMessage("完成資料獲取.")
     line_bot_api.reply_message(event.reply_token, message)
 
 
