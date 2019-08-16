@@ -53,12 +53,11 @@ def handle_message(event):
     word = event.message.text
     if word == "你好":
         message = TextSendMessage(text="Hello#你好")
-    else:
-        message = TextSendMessage(text="抱歉我不了解#")
     
     if word == "Osu":
         message = TextSendMessage(text="Yes!")
         WorkSheet.update_cell(1, 1, "Yes!Yes!Yes!")
+    
     # if word == "天氣":
     #     @handler.add(MessageEvent, message=LocationMessage)
     #     def handle_message(event):
@@ -66,18 +65,19 @@ def handle_message(event):
     #         lat = float(event.message.latitude)
     #         result = WeatherForecast.ForeCast(lat, lon)
     #         message = TextSendMessage(text=result)
-    line_bot_api.reply_message(event.reply_token, message)
 
     if word == "#獲得群組成員ID&資料內容":
-        i = 0
-        member_ids_res = line_bot_api.get_group_member_ids(group_id)
-        for member_id in member_ids_res:
-            WorkSheet.append_row(member_id)
-            profile = line_bot_api.get_profile(member_id)
-            WorkSheet.update_cell(i, 2, profile.display_name)
-            WorkSheet.update_cell(i, 3, profile.picture_url)
-            WorkSheet.update_cell(i, 4, profile.status_message)
-            i += 1
+    i = 0
+    member_ids_res = line_bot_api.get_group_member_ids(group_id)
+    for member_id in member_ids_res:
+        WorkSheet.append_row(member_id)
+        profile = line_bot_api.get_profile(member_id)
+        WorkSheet.update_cell(i, 2, profile.display_name)
+        WorkSheet.update_cell(i, 3, profile.picture_url)
+        WorkSheet.update_cell(i, 4, profile.status_message)
+        i += 1
+    line_bot_api.reply_message(event.reply_token, message)
+
 
 import os
 if __name__ == "__main__":
