@@ -59,6 +59,13 @@ def handle_message(event):
         message = TextSendMessage(text="Yes!")
         WorkSheet.update_cell(1, 1, "Yes!Yes!Yes!")
 
+    if word == "遊戲開始":
+        status_list = worksheet.col_values(2)
+        for i in range(0, len(status_list)):
+            if status_list[i] == "Prepared":
+                WorkSheet.update_cell(1, 1, "Gaming")
+
+
     # if word == "#準備完成":
     #     WorkSheet.append_row(event.message.id)
     #     message = TextSendMessage(text="資料登入完成！")
