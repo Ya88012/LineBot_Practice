@@ -53,7 +53,7 @@ def handle_message(event):
     word = event.message.text
     if word == "你好":
         message = TextSendMessage(text="Hello#你好")
-        WorkSheet.update_cell(1, 1, "event.message.id")
+        WorkSheet.update_cell(1, 1, event.message.id)
     
     if word == "Osu":
         message = TextSendMessage(text="Yes!")
