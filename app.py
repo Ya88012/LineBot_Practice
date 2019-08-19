@@ -10,9 +10,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-from engine import WeatherForecast
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import random
 
 
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
@@ -59,11 +59,16 @@ def handle_message(event):
         message = TextSendMessage(text="Yes!")
         WorkSheet.update_cell(1, 1, "Yes!Yes!Yes!")
 
-    if word == "遊戲開始":
-        status_list = worksheet.col_values(2)
+    if word == "#遊戲開始":
+        players_amount = 0
+        status_list = WorkSheet.col_values(2)
         for i in range(0, len(status_list)):
             if status_list[i] == "Prepared":
-                WorkSheet.update_cell(1, 1, "Gaming")
+                WorkSheet.update_cell(i, 2, "Gaming")
+                players_amount += 1
+        WorkSheet.update_cell(random.randint(1, 4), 1, "killer")
+        message = TextSendMessage(text="此次遊玩人數為{}人".format(players_amount))
+
 
 
     # if word == "#準備完成":
