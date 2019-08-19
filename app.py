@@ -64,7 +64,7 @@ def handle_message(event):
         status_list = WorkSheet.col_values(2)
         for i in range(0, len(status_list)):
             if status_list[i] == "Prepared":
-                WorkSheet.update_cell(i, 2, "Gaming")
+                WorkSheet.update_cell(i+1, 2, "Gaming")
                 players_amount += 1
         WorkSheet.update_cell(random.randint(1, 4), 1, "killer")
         message = TextSendMessage(text="此次遊玩人數為{}人".format(players_amount))
