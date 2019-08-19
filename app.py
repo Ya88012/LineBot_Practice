@@ -59,9 +59,9 @@ def handle_message(event):
         WorkSheet.update_cell(1, 1, "Yes!Yes!Yes!")
 
     if word == "#準備完成":
-        WorkSheet.append_row(event.source.user_id)
+        WorkSheet.append_row(event.message.id)
         message = TextSendMessage(text="資料登入完成！")
-        print(event.source.id)
+        print(event.message.id)
     # if word == "#獲得群組成員ID&資料內容":
     #     groupid = event.source.group_id
     #     print(groupid)
