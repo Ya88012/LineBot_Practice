@@ -73,7 +73,7 @@ def handle_message(event):
         players_amount += 1
 
     if word == "#遊戲開始":
-        message = [{"type":"text", "text"="GameStart~~~"}, {"type":"text", "text":"本次遊戲共 {} 人遊玩".format(players_amount)}]
+        message = [{"type":"text", "text":"GameStart~~~"}, {"type":"text", "text":"本次遊戲共 {} 人遊玩".format(players_amount)}]
         speciallist = random.sample(range(1, players_amount+1), 4)
 
         for i in range(1, players_amount+1):
