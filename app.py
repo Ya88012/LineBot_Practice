@@ -61,7 +61,6 @@ def handle_message(event):
         message = TextSendMessage(text="已創立新遊戲~~~")
 
     if word == "#準備完成":
-        global WorkSheet_Game
         print(str(event.source.type))
         print(str(event.source.user_id))
         print(str(event.source.group_id))
