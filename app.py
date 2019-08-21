@@ -65,35 +65,28 @@ def handle_message(event):
         global players_amount
         Temp = []
         Temp.append(str(event.source.user_id))
+        profile = line_bot_api.get_profile(event.source.user_id)
+        player_name = profile.display_name
+        Temp.append(player_name)       
         WorkSheet_Game.append_row(Temp)
-        message = TextSendMessage(text="已登入遊戲~~~")
+        message = TextSendMessage(text="玩家 {} 已登入遊戲~~~".format(player_name))
         players_amount += 1
 
     if word == "#遊戲開始":
-        message = TextSendMessage(text="GameStart~~~")
+        message = [TextSendMessage(text="GameStart~~~"), TextSendMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
+        speciallist = random.sample(range(1, players_amount+1), 4)
+
+        for i in range(1, players_amount+1):
+            WorkSheet_Game.update_cell(i, 3, "Innocent")
+        for j in range(0, 3):
+            WorkSheet_Game.update_cell(speciallist[j], 3, "Murderer")
+        for k in range(2, 5):
+            WorkSheet_Game.update_cell(speciallist[k], 3, "Detective")
 
     if word == "#開發用_測試回覆":
         line_bot_api.multicast(WorkSheet_Game.col_values(1), TextSendMessage(text="OaO"))
         message = TextSendMessage(text="OuO")
 
-
-    # if word == "#準備完成":
-    #     WorkSheet.append_row(event.message.id)
-    #     message = TextSendMessage(text="資料登入完成！")
-    #     print(event.message.id)
-    # if word == "#獲得群組成員ID&資料內容":
-    #     groupid = event.source.group_id
-    #     print(groupid)
-        # i = 0
-        # member_ids_res = line_bot_api.get_group_member_ids(groupid)
-        # for member_id in member_ids_res:
-        #     WorkSheet.append_row(member_id)
-        #     profile = line_bot_api.get_profile(member_id)
-        #     WorkSheet.update_cell(i, 2, profile.display_name)
-        #     WorkSheet.update_cell(i, 3, profile.picture_url)
-        #     WorkSheet.update_cell(i, 4, profile.status_message)
-        #     i += 1
-    #     message = TextSendMessage("完成資料獲取.")
     line_bot_api.reply_message(event.reply_token, message)
 
 
