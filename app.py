@@ -21,7 +21,7 @@ scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/au
 creds = ServiceAccountCredentials.from_json_keyfile_name("MyLineBotDataBaseSheetKey.json", scope)
 client = gspread.authorize(creds)
 SpreadSheet = client.open("MyLineBotData")
-WorkSheet = SpreadSheet.worksheet("AA")
+WorkSheet_Index = SpreadSheet.worksheet("Index")
 
 
 app = Flask(__name__)
@@ -51,25 +51,18 @@ def handle_message(event):
     #     event.reply_token,
     #     TextSendMessage(text=event.message.text))
     word = event.message.text
-    if word == "你好":
-        message = TextSendMessage(text="Hello#你好")
-        WorkSheet.update_cell(1, 1, event.message.id)
     
-    if word == "Osu":
-        message = TextSendMessage(text="Yes!")
-        WorkSheet.update_cell(1, 1, "Yes!Yes!Yes!")
+    if word == "#準備完成":
+        WorkSheet_Index.append_row(event.source.user_id)
 
     if word == "#遊戲開始":
+        WorkSheet_Game = SpreadSheet.add_worksheet(title="Game", rows="100", cols="20")
         players_amount = 0
-        status_list = WorkSheet.col_values(2)
+        status_list = WorkSheet_Index.col_values(2)
         for i in range(0, len(status_list)):
             if status_list[i] == "Prepared":
-                WorkSheet.update_cell(i+1, 2, "Gaming")
+                WorkSheet_Index.update_cell(i+1, 2, "Gaming")
                 players_amount += 1
-        WorkSheet.update_cell(random.randint(1, 4), 1, "killer")
-        message = TextSendMessage(text="此次遊玩人數為{}人".format(players_amount))
-
-
 
     # if word == "#準備完成":
     #     WorkSheet.append_row(event.message.id)
