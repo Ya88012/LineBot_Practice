@@ -61,8 +61,8 @@ def handle_message(event):
         message = TextSendMessage(text="已創立新遊戲~~~")
 
     if word == "#準備完成":
-        WorkSheet_Game.append_row(event.source.group_id)
-        WorkSheet_Game.append_row(event.source.user_id)
+        WorkSheet_Game.append_row(event.source.groupId)
+        WorkSheet_Game.append_row(event.source.userId)
         message = TextSendMessage(text="已創立新遊戲~~~") 
 
     if word == "#遊戲開始":
