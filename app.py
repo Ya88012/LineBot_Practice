@@ -53,9 +53,10 @@ def handle_message(event):
     word = event.message.text
     
     if word == "你好":
-        message = TextSendMessge(text="Hello~~~")
+        message = TextSendMessage(text="Hello~~~")
 
     if word == "#天黑請閉眼":
+        global WorkSheet_Game
         WorkSheet_Game = SpreadSheet.add_worksheet(title="Game", rows="100", cols="20")
 
     if word == "#準備完成":
