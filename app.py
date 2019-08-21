@@ -61,10 +61,14 @@ def handle_message(event):
         message = TextSendMessage(text="已創立新遊戲~~~")
 
     if word == "#準備完成":
+        global WorkSheet_Game
         print(str(event.source.type))
         print(str(event.source.user_id))
         print(str(event.source.group_id))
-        message = TextSendMessage(text="已創立新遊戲~~~") 
+        WorkSheet_Game.append_row(str(event.source.type))
+        WorkSheet_Game.append_row(str(event.source.user_id))
+        WorkSheet_Game.append_row(str(event.source.group_id))
+        message = TextSendMessage(text="已登入遊戲~~~") 
 
     if word == "#遊戲開始":
         message = TextSendMessage(text="GameStart~~~")
