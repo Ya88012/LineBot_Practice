@@ -16,7 +16,6 @@ import random
 global players_amount
 global idlist
 players_amount = 0
-idlist = ["OuO"]
 
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('b870f02c816b775a2dd5013c84cac78d')
@@ -25,6 +24,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("MyLineBotDataBaseSheet
 client = gspread.authorize(creds)
 SpreadSheet = client.open("MyLineBotData")
 WorkSheet_Index = SpreadSheet.worksheet("Index")
+WorkSheet_Game = SpreadSheet.worksheet("Game")
 
 
 app = Flask(__name__)
@@ -59,20 +59,24 @@ def handle_message(event):
         message = TextSendMessage(text="Hello~~~")
 
     if word == "#天黑請閉眼":
-        global WorkSheet_Game
-        WorkSheet_Game = SpreadSheet.add_worksheet(title="Game", rows="100", cols="20")
+        WorkSheet_Game.clear()
         message = TextSendMessage(text="已創立新遊戲~~~")
 
     if word == "#準備完成":
         global players_amount
-        global idlist
-        idlist.append(str(event.source.user_id))
-
-        message = TextSendMessage(text="已登入遊戲~~~") 
+        Temp = []
+        Temp.append(str(event.source.user_id))
+        WorkSheet_Game.append_row(Temp)
+        message = TextSendMessage(text="已登入遊戲~~~")
+        players_amount += 1
 
     if word == "#遊戲開始":
-        WorkSheet_Game.append_row(idlist)
         message = TextSendMessage(text="GameStart~~~")
+
+    if word == "開發用_測試回覆":
+        line_bot_api.multicast(worksheet.col_values(1), TextSendMessage(text="OaO"))
+        message = TextSendMessage(text="OuO")
+
 
     # if word == "#準備完成":
     #     WorkSheet.append_row(event.message.id)
