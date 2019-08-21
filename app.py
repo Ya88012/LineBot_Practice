@@ -73,7 +73,7 @@ def handle_message(event):
         players_amount += 1
 
     if word == "#遊戲開始":
-        message = [TextSendMessage(text="GameStart~~~"), TextSendMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
+        message = [{"type":"text", "text"="GameStart~~~"}, {"type":"text", "text":"本次遊戲共 {} 人遊玩".format(players_amount)}]
         speciallist = random.sample(range(1, players_amount+1), 4)
 
         for i in range(1, players_amount+1):
@@ -84,7 +84,7 @@ def handle_message(event):
             WorkSheet_Game.update_cell(speciallist[k], 3, "Detective")
 
     if word == "#開發用_測試回覆":
-        line_bot_api.multicast(WorkSheet_Game.col_values(1), TextSendMessage(text="OaO"))
+        line_bot_api.multicast(WorkSheet_Game.col_values(1), TextSendMessage(text="本次遊戲你的身分為 {}".format(WorkSheet_Game.cell.value)))
         message = TextSendMessage(text="OuO")
 
     line_bot_api.reply_message(event.reply_token, message)
