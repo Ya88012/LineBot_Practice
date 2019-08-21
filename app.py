@@ -63,6 +63,7 @@ def handle_message(event):
             if status_list[i] == "Prepared":
                 WorkSheet_Index.update_cell(i+1, 2, "Gaming")
                 players_amount += 1
+        message = TextSendMessage(text="總共 {} 人".format(players_amount))
 
     # if word == "#準備完成":
     #     WorkSheet.append_row(event.message.id)
