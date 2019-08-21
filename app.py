@@ -13,7 +13,10 @@ from linebot.models import (
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import random
-
+global players_amount
+global idlist
+players_amount = 0
+idlist = ["OuO"]
 
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('b870f02c816b775a2dd5013c84cac78d')
@@ -61,15 +64,14 @@ def handle_message(event):
         message = TextSendMessage(text="已創立新遊戲~~~")
 
     if word == "#準備完成":
-        print(str(event.source.type))
-        print(str(event.source.user_id))
-        print(str(event.source.group_id))
-        WorkSheet_Game.append_row(str(event.source.type))
-        WorkSheet_Game.append_row(str(event.source.user_id))
-        WorkSheet_Game.append_row(str(event.source.group_id))
+        global players_amount
+        global idlist
+        idlist.append(str(event.source.user_id))
+
         message = TextSendMessage(text="已登入遊戲~~~") 
 
     if word == "#遊戲開始":
+        WorkSheet_Game.append_row(idlist)
         message = TextSendMessage(text="GameStart~~~")
 
     # if word == "#準備完成":
