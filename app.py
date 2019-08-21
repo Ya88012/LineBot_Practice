@@ -14,7 +14,6 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import random
 global players_amount
-global idlist
 players_amount = 0
 
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
@@ -73,8 +72,8 @@ def handle_message(event):
     if word == "#遊戲開始":
         message = TextSendMessage(text="GameStart~~~")
 
-    if word == "開發用_測試回覆":
-        line_bot_api.multicast(worksheet.col_values(1), TextSendMessage(text="OaO"))
+    if word == "#開發用_測試回覆":
+        line_bot_api.multicast(WorkSheet_Game.col_values(1), TextSendMessage(text="OaO"))
         message = TextSendMessage(text="OuO")
 
 
