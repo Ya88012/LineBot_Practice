@@ -52,18 +52,17 @@ def handle_message(event):
     #     TextSendMessage(text=event.message.text))
     word = event.message.text
     
+    if word == "你好":
+        message = TextSendMessge(text="Hello~~~")
+
+    if word == "#天黑請閉眼":
+        WorkSheet_Game = SpreadSheet.add_worksheet(title="Game", rows="100", cols="20")
+
     if word == "#準備完成":
-        WorkSheet_Index.append_row(event.source.user_id)
+        WorkSheet_Game.append_row(event.source.user_id)
 
     if word == "#遊戲開始":
-        WorkSheet_Game = SpreadSheet.add_worksheet(title="Game", rows="100", cols="20")
-        players_amount = 0
-        status_list = WorkSheet_Index.col_values(2)
-        for i in range(0, len(status_list)):
-            if status_list[i] == "Prepared":
-                WorkSheet_Index.update_cell(i+1, 2, "Gaming")
-                players_amount += 1
-        message = TextSendMessage(text="總共 {} 人".format(players_amount))
+        message = TextSendMessage(text="GameStart~~~")
 
     # if word == "#準備完成":
     #     WorkSheet.append_row(event.message.id)
