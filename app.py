@@ -58,9 +58,12 @@ def handle_message(event):
     if word == "#天黑請閉眼":
         global WorkSheet_Game
         WorkSheet_Game = SpreadSheet.add_worksheet(title="Game", rows="100", cols="20")
+        message = TextSendMessage(text="已創立新遊戲~~~")
 
     if word == "#準備完成":
+        WorkSheet_Game.append_row(event.source.group_id)
         WorkSheet_Game.append_row(event.source.user_id)
+        message = TextSendMessage(text="已創立新遊戲~~~") 
 
     if word == "#遊戲開始":
         message = TextSendMessage(text="GameStart~~~")
