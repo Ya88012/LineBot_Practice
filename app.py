@@ -98,9 +98,10 @@ def handle_message(event):
         # line_bot_api.multicast(Murdereridlist, [TextMessge(text="此次遊戲你的身分為『殺手』"), TextMessage(text="當個機掰人背刺所有人吧！")])
         # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="此次遊戲你的身分為『偵探』"), TextMessage(text="生死就掌握在你的第六感了！")])
         # line_bot_api.multicast(Innocentidlist, [TextMessge(text="此次遊戲你的身分為『平民』"), TextMessage(text="這場就乖乖混分吧~")])
-    print(Innocentidlist)
-    print(Murdereridlist)
-    print(Detectiveidlist)
+        print(Innocentidlist)
+        print(Murdereridlist)
+        print(Detectiveidlist)
+        print(event.source.group_id)
     line_bot_api.reply_message(event.reply_token, message)
 
 
