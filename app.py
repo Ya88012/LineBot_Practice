@@ -13,6 +13,7 @@ from linebot.models import (
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import random
+import time
 global players_amount
 players_amount = 0
 
@@ -73,7 +74,7 @@ def handle_message(event):
         players_amount += 1
 
     if word == "#遊戲開始":
-        message = [{"type":"text", "text":"GameStart~~~"}, {"type":"text", "text":"本次遊戲共 {} 人遊玩".format(players_amount)}]
+        message = [TextMessage(text="Test_A"), TextMessage(text="Test_B")]
         speciallist = random.sample(range(1, players_amount+1), 4)
 
         for i in range(1, players_amount+1):
@@ -88,7 +89,6 @@ def handle_message(event):
         message = TextSendMessage(text="OuO")
 
     line_bot_api.reply_message(event.reply_token, message)
-    print("Surprise")
 
 
 import os
