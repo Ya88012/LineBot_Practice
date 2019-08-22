@@ -78,9 +78,9 @@ def handle_message(event):
 
         for i in range(1, players_amount+1):
             WorkSheet_Game.update_cell(i, 3, "Innocent")
-        for j in range(0, 3):
+        for j in range(0, 2):
             WorkSheet_Game.update_cell(speciallist[j], 3, "Murderer")
-        for k in range(2, 5):
+        for k in range(2, 4):
             WorkSheet_Game.update_cell(speciallist[k], 3, "Detective")
 
     if word == "#開發用_測試回覆":
@@ -88,6 +88,7 @@ def handle_message(event):
         message = TextSendMessage(text="OuO")
 
     line_bot_api.reply_message(event.reply_token, message)
+    print("Surprise")
 
 
 import os
