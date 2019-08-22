@@ -74,34 +74,39 @@ def handle_message(event):
         players_amount += 1
 
     if word == "#遊戲開始":
-        message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
-        speciallist = random.sample(range(1, players_amount+1), 4)
-        Murdereridlist = []
-        Detectiveidlist = []
-        Innocentidlist = []
+        if players_amount == 8:
+            message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
+            speciallist = random.sample(range(1, players_amount+1), 4)
+            Murdereridlist = []
+            Detectiveidlist = []
+            Innocentidlist = []
 
-        for i in range(1, players_amount+1):
-            WorkSheet_Game.update_cell(i, 3, "Innocent")
-            WorkSheet_Game.update_cell(i, 4, "Alive")
-            Innocentidlist.append(WorkSheet_Game.cell(i, 1).value)
-        for j in speciallist[0:2]:
-            WorkSheet_Game.update_cell(j, 3, "Murderer")
-            Tempkiller = WorkSheet_Game.cell(j, 1).value
-            Murdereridlist.append(Tempkiller)
-            Innocentidlist.remove(Tempkiller)
-        for k in speciallist[2:4]:
-            WorkSheet_Game.update_cell(k, 3, "Detective")
-            TempDetective = WorkSheet_Game.cell(k, 1).value
-            Detectiveidlist.append(TempDetective)
-            Innocentidlist.remove(TempDetective)
+            for i in range(1, players_amount+1):
+                WorkSheet_Game.update_cell(i, 3, "Innocent")
+                WorkSheet_Game.update_cell(i, 4, "Alive")
+                Innocentidlist.append(WorkSheet_Game.cell(i, 1).value)
+            for j in speciallist[0:2]:
+                WorkSheet_Game.update_cell(j, 3, "Murderer")
+                Tempkiller = WorkSheet_Game.cell(j, 1).value
+                Murdereridlist.append(Tempkiller)
+                Innocentidlist.remove(Tempkiller)
+            for k in speciallist[2:4]:
+                WorkSheet_Game.update_cell(k, 3, "Detective")
+                TempDetective = WorkSheet_Game.cell(k, 1).value
+                Detectiveidlist.append(TempDetective)
+                Innocentidlist.remove(TempDetective)
 
-        # line_bot_api.multicast(Murdereridlist, [TextMessge(text="此次遊戲你的身分為『殺手』"), TextMessage(text="當個機掰人背刺所有人吧！")])
-        # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="此次遊戲你的身分為『偵探』"), TextMessage(text="生死就掌握在你的第六感了！")])
-        # line_bot_api.multicast(Innocentidlist, [TextMessge(text="此次遊戲你的身分為『平民』"), TextMessage(text="這場就乖乖混分吧~")])
-        print(Innocentidlist)
-        print(Murdereridlist)
-        print(Detectiveidlist)
-        print(event.source.group_id)
+            # line_bot_api.multicast(Murdereridlist, [TextMessge(text="此次遊戲你的身分為『殺手』"), TextMessage(text="當個機掰人背刺所有人吧！")])
+            # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="此次遊戲你的身分為『偵探』"), TextMessage(text="生死就掌握在你的第六感了！")])
+            # line_bot_api.multicast(Innocentidlist, [TextMessge(text="此次遊戲你的身分為『平民』"), TextMessage(text="這場就乖乖混分吧~")])
+            print(Innocentidlist)
+            print(Murdereridlist)
+            print(Detectiveidlist)
+            print(event.source.group_id)
+        elif players_amount < 8:
+            message = TextSendMessage(text="人數過少，無法進入遊戲~")
+        else:
+            message = TextSendMessage(text="人數過多，無法進入遊戲~")
     line_bot_api.reply_message(event.reply_token, message)
 
 
