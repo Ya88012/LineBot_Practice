@@ -74,19 +74,30 @@ def handle_message(event):
         players_amount += 1
 
     if word == "#遊戲開始":
-        message = [TextMessage(text="Test_A"), TextMessage(text="Test_B")]
+        message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
         speciallist = random.sample(range(1, players_amount+1), 4)
 
         for i in range(1, players_amount+1):
             WorkSheet_Game.update_cell(i, 3, "Innocent")
-        for j in range(0, 2):
-            WorkSheet_Game.update_cell(speciallist[j], 3, "Murderer")
-        for k in range(2, 4):
-            WorkSheet_Game.update_cell(speciallist[k], 3, "Detective")
+            WorkSheet_Game.update_cell(i, 4, "Alive")
+            Innocentidlist = []
+            Innocentidlist.append(WorkSheet_Game.cell(i, 1).value)
+        for j in speciallist[0:2]:
+            WorkSheet_Game.update_cell(j, 3, "Murderer")
+            Murdereridlist = []
+            Tempkiller = WorkSheet_Game.cell(j, 1).value
+            Murdereridlist.append(Tempkiller)
+            Innocentidlist.remove(Tempkiller)
+        for k in speciallist[2:4]:
+            WorkSheet_Game.update_cell(k, 3, "Detective")
+            Detectiveidlist = []
+            TempDetective = WorkSheet_Game.cell(k, 1).value
+            Detectiveidlist.append(TempDetective)
+            Innocentidlist.remove(TempDetective)
 
-    if word == "#開發用_測試回覆":
-        line_bot_api.multicast(WorkSheet_Game.col_values(1), TextSendMessage(text="本次遊戲你的身分為 {}".format(WorkSheet_Game.cell.value)))
-        message = TextSendMessage(text="OuO")
+        # line_bot_api.multicast(Murdereridlist, [TextMessge(text="此次遊戲你的身分為『殺手』"), TextMessage(text="當個機掰人背刺所有人吧！")])
+        # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="此次遊戲你的身分為『偵探』"), TextMessage(text="生死就掌握在你的第六感了！")])
+        # line_bot_api.multicast(Innocentidlist, [TextMessge(text="此次遊戲你的身分為『平民』"), TextMessage(text="這場就乖乖混分吧~")])
 
     line_bot_api.reply_message(event.reply_token, message)
 
