@@ -76,21 +76,21 @@ def handle_message(event):
     if word == "#遊戲開始":
         message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
         speciallist = random.sample(range(1, players_amount+1), 4)
+        Murdereridlist = []
+        Detectiveidlist = []
+        Innocentidlist = []
 
         for i in range(1, players_amount+1):
             WorkSheet_Game.update_cell(i, 3, "Innocent")
             WorkSheet_Game.update_cell(i, 4, "Alive")
-            Innocentidlist = []
             Innocentidlist.append(WorkSheet_Game.cell(i, 1).value)
         for j in speciallist[0:2]:
             WorkSheet_Game.update_cell(j, 3, "Murderer")
-            Murdereridlist = []
             Tempkiller = WorkSheet_Game.cell(j, 1).value
             Murdereridlist.append(Tempkiller)
             Innocentidlist.remove(Tempkiller)
         for k in speciallist[2:4]:
             WorkSheet_Game.update_cell(k, 3, "Detective")
-            Detectiveidlist = []
             TempDetective = WorkSheet_Game.cell(k, 1).value
             Detectiveidlist.append(TempDetective)
             Innocentidlist.remove(TempDetective)
