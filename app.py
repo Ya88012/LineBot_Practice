@@ -14,8 +14,6 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import random
 import time
-global players_amount
-players_amount = 0
 
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('b870f02c816b775a2dd5013c84cac78d')
@@ -61,6 +59,8 @@ def handle_message(event):
     if word == "#天黑請閉眼":
         WorkSheet_Game.clear()
         message = TextSendMessage(text="已創立新遊戲~~~")
+        WorkSheet_Game.update_cell(100, 20, event.source.group_id)
+        WorkSheet_Game.update_cell(100, 19, "0")
 
     if word == "#準備完成":
         global players_amount
@@ -70,10 +70,13 @@ def handle_message(event):
         player_name = profile.display_name
         Temp.append(player_name)       
         WorkSheet_Game.append_row(Temp)
-        message = TextSendMessage(text="玩家 {} 已登入遊戲~~~".format(player_name))
+        players_amount = int(WorkSheet_Game.cell(100, 19).value)
         players_amount += 1
+        WorkSheet_Game.update_cell(str(players_amount))
+        message = TextSendMessage(text="玩家 {} 已登入遊戲~~~".format(player_name))
 
     if word == "#遊戲開始":
+        players_amount = int(WorkSheet_Game.cell(100, 19).value)
         if players_amount == 8:
             message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
             speciallist = random.sample(range(1, players_amount+1), 4)
@@ -84,14 +87,17 @@ def handle_message(event):
             for i in range(1, players_amount+1):
                 WorkSheet_Game.update_cell(i, 3, "Innocent")
                 WorkSheet_Game.update_cell(i, 4, "Alive")
+                WorkSheet_Game.update_cell(i, 6, "0")
                 Innocentidlist.append(WorkSheet_Game.cell(i, 1).value)
             for j in speciallist[0:2]:
                 WorkSheet_Game.update_cell(j, 3, "Murderer")
+                WorkSheet_Game.update_cell(j, 5, "KillVote")
                 Tempkiller = WorkSheet_Game.cell(j, 1).value
                 Murdereridlist.append(Tempkiller)
                 Innocentidlist.remove(Tempkiller)
             for k in speciallist[2:4]:
                 WorkSheet_Game.update_cell(k, 3, "Detective")
+                WorkSheet_Game.update_cell(k, 5, "CheckVote")
                 TempDetective = WorkSheet_Game.cell(k, 1).value
                 Detectiveidlist.append(TempDetective)
                 Innocentidlist.remove(TempDetective)
@@ -99,14 +105,40 @@ def handle_message(event):
             # line_bot_api.multicast(Murdereridlist, [TextMessge(text="此次遊戲你的身分為『殺手』"), TextMessage(text="當個機掰人背刺所有人吧！")])
             # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="此次遊戲你的身分為『偵探』"), TextMessage(text="生死就掌握在你的第六感了！")])
             # line_bot_api.multicast(Innocentidlist, [TextMessge(text="此次遊戲你的身分為『平民』"), TextMessage(text="這場就乖乖混分吧~")])
+            
             print(Innocentidlist)
             print(Murdereridlist)
             print(Detectiveidlist)
-            print(event.source.group_id)
+
         elif players_amount < 8:
             message = TextSendMessage(text="人數過少，無法進入遊戲~")
         else:
             message = TextSendMessage(text="人數過多，無法進入遊戲~")
+
+        WorkSheet_Game.update_cell(100, 18, "Night")
+    
+    for i in range(1, players_amount+1):
+        message = []
+        if word == "#"+str(i):
+            checklist = WorkSheet_Game.col_values(3)
+            murderersnum = checklist.count("Murderer")
+            cell = WorkSheet_Game.find(event.source.user_id)
+            IdentityConfirm = WorkSheet_Game.cell(int(cell.row), 5).value
+            if IdentityConfirm == "KillVote":
+                Temp = int(WorkSheet_Game.cell(i, 6).value) += 1
+                WorkSheet_Game.update_cell(i, 6, str(Temp))
+                message.append(TextMessage(text="你已投票給 {} 號~").format(i))
+                if int(WorkSheet_Game.cell(i, 6).value) >= murderersnum:
+                    WorkSheet_Game.update_cell(i, 4, "Dead")
+                    message.append(TextMessage(text="你們成功殺死了 {} 號").format(i))
+                    for j in range(1, len(checklist)+1):
+                        if checklist[j-1] == "Murderer":
+                            WorkSheet_Game.update_cell(j, 5, "")
+    
+    if word == "#開發用_找不到ID.":
+        cell = WorkSheet_Game.find("ABCDE")
+        print(cell)
+
     line_bot_api.reply_message(event.reply_token, message)
 
 
