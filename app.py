@@ -116,35 +116,10 @@ def handle_message(event):
         GameStatus = WorkSheet_Game.cell(1, 3).value
         line_bot_api.reply_message(event.reply_token, message)
         print(GameStatus)
-        # NightTimeVote(GameStatus)
-    
-    def NightTimeVote(GameStatus):
-        @handler.add(MessageEvent, message=TextMessage)
-        def handle_message(event):
-            word = event.message.text
-            if GameStaus != "Night":
-                message = TextSendMessage(text="現在並不是晚上#")
-            else:
-                for i in range(1, players_amount+1):
-                    if word == "#"+str(i):
-                        checklist = WorkSheet_Game.col_values(3)
-                        murderersnum = checklist.count("Murderer")
-                        cell = WorkSheet_Game.find(event.source.user_id)
-                        IdentityConfirm = WorkSheet_Game.cell(int(cell.row), 3).value
-                        if IdentityConfirm == "Murderer":
-                            Temp = int(WorkSheet_Game.cell(i, 5).value) + 1
-                            WorkSheet_Game.update_cell(i, 5, str(Temp))
-                            message.append(TextMessage(text="{} 已投票給 {} 號~").format(WorkSheet_Game.cell(int(cell.row), 2).value, i))
-                            if int(WorkSheet_Game.cell(i, 5).value) >= murderersnum:
-                                WorkSheet_Game.update_cell(i, 4, "Dead")
-                                message.append(TextMessage(text="你們成功殺死了 {} 號").format(i))
-                else:
-                    message = TextSendMessage(text="指令操作錯誤")
-        line_bot_api.reply_message(event.reply_token, message)
 
-    if word == "#開發用_找不到ID.":
-        cell = WorkSheet_Game.find("ABCDE")
-        print(cell)
+    for i in range(1,players_amount+1):
+        if word == "#"+str(i):
+            message = TextSendMessage(text=word)
 
     line_bot_api.reply_message(event.reply_token, message)
 
