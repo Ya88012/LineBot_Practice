@@ -86,6 +86,8 @@ def handle_message(event):
             Murdereridlist = []
             Detectiveidlist = []
             Innocentidlist = []
+            Murderernumlist = [1, 2]
+            Detectivenumlist = []
 
             cell_list = WorkSheet_Game.range("C2:C9")
             for cell in cell_list:
@@ -105,21 +107,23 @@ def handle_message(event):
             for j in speciallist[0:2]:
                 WorkSheet_Game.update_cell(j, 3, "Murderer")
                 Tempkiller = WorkSheet_Game.cell(j, 1).value
+                # Murderernumlist.append(j-1)
                 Murdereridlist.append(Tempkiller)
                 Innocentidlist.remove(Tempkiller)
             for k in speciallist[2:4]:
                 WorkSheet_Game.update_cell(k, 3, "Detective")
                 TempDetective = WorkSheet_Game.cell(k, 1).value
+                Detectivenumlist.append(k-1)
                 Detectiveidlist.append(TempDetective)
                 Innocentidlist.remove(TempDetective)
 
-            # line_bot_api.multicast(Murdereridlist, [TextMessge(text="此次遊戲你的身分為『殺手』"), TextMessage(text="當個機掰人背刺所有人吧！")])
-            # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="此次遊戲你的身分為『偵探』"), TextMessage(text="生死就掌握在你的第六感了！")])
+            # line_bot_api.multicast(Murdereridlist, [TextMessage(text="殺手一方：{} {}".format(WorkSheet_Game.cell(speciallist[0], 2).value, WorkSheet_Game.cell(speciallist[1], 2).value)), TextMessge(text="此次遊戲你們的身分為『殺手』"), TextMessage(text="當個機掰人背刺所有人吧！")])
+            # line_bot_api.multicast(Detectiveidlist, [TextMessage(text="偵探一方：{} {}".format(WorkSheet_Game.cell(speciallist[2], 2).value, WorkSheet_Game.cell(speciallist[3], 2).value)), TextMessge(text="此次遊戲你的身分為『偵探』"), TextMessage(text="生死就掌握在你的第六感了！")])
             # line_bot_api.multicast(Innocentidlist, [TextMessge(text="此次遊戲你的身分為『平民』"), TextMessage(text="這場就乖乖混分吧~")])
             
-            print(Innocentidlist)
-            print(Murdereridlist)
-            print(Detectiveidlist)
+            print(Murderernumlist)
+            print(Detectivenumlist)
+
             print(type(WorkSheet_Game.cell(20, 20).value))
 
         elif players_amount < 8:
@@ -127,10 +131,37 @@ def handle_message(event):
         else:
             message = TextSendMessage(text="人數過多，無法進入遊戲~")
 
+        NightKillerVote = []
         WorkSheet_Game.update_cell(1, 3, "Night")
         GameStatus = WorkSheet_Game.cell(1, 3).value
         print(GameStatus)
         line_bot_api.reply_message(event.reply_token, message)
+        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1個晚上~~~"), TextMessage(text="該做事的別睡了哦~~~")])
+        
+        time.sleep(30)
+        for i in Murderernumlist:
+            if WorkSheet_Game.cell(i+1, 4).value != "Alive":
+                Murderernumlist.remove(i)
+                Murdereridlist.remove(WorkSheet_Game.cell(i+1, 1).value)
+        for j in Murderernumlist:
+            NightKillerVote.append(int(WorkSheet_Game.cell(j+1, 5).value))
+        for k in NightKillerVote:
+            Temp = NightKillerVote.count(k)
+            if Temp > len(NightKillerVote):
+                WorkSheet_Game.update_cell(k+1, 4, "Dead")
+        for i in Detectivenumlist:
+            if WorkSheet_Game.cell(i+1, 4).value != "Alive":
+                Detectivenumlist.remove(i)
+                Detectivenumlist.remove(WorkSheet_Game.cell(i+1, 1).value)
+        for j in Detectivenumlist:
+            Detectivenumlist.append(int(WorkSheet_Game.cell(j+1, 5).value))
+        for k in Detectivenumlist:
+            Temp = Detectivenumlist.count(k)
+            if Temp > len(Detectivenumlist):
+                Surveyresult = WorkSheet_Game.cell(k+1, 3).cell
+                # line_bot_api.multicast(Innocentidlist, TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult))])
+                print("{} 號的身分為 {}".format(k, Surveyresult))
+
 
     else:
         pattern = re.compile(r'^(#)([1-8]{1})$')
@@ -149,8 +180,14 @@ def handle_message(event):
                         message = TextSendMessage(text="現在是晚上閉嘴好嗎？")
                     elif IdentityConfirmList[player_num-1] == "Murderer":
                         WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
+                        # line_bot_api.multicast(Murdereridlist, [TextMessge(text="{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))])
+                        print(Murdereridlist)
+                        print(text="{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))
                     elif IdentityConfirmList[player_num-1] == "Detective":
                         WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
+                        # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))])
+                        print(Detectiveidlist)
+                        print("{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))
                 elif WorkSheet_Game.cell(1, 3).value == "Day":
                     if event.source.type == "user":
                         message = TextSendMessage(text="白天不要說悄悄話行不行？")
