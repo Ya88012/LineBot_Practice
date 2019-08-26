@@ -116,9 +116,9 @@ def handle_message(event):
         WorkSheet_Game.update_cell(1, 3, "Night")
         GameStatus = WorkSheet_Game.cell(1, 3).value
         print(GameStatus)
-        for i in range(0,3)
-        time.sleep(10)
-        print(i)
+        for i in range(0,3):
+            time.sleep(10)
+            print(i)
 
     else:
         pattern = re.compile(r'^(#)([1-8]{1})$')
