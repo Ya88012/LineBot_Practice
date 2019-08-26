@@ -139,10 +139,12 @@ def handle_message(event):
             IdentityConfirmList = WorkSheet_Game.col_values(3)
             commandnum = int(match.group(2))
             try:
-                # print(commandnum)
                 cell = WorkSheet_Game.find(event.source.user_id)
                 player_num = cell.row
                 if WorkSheet_Game.cell(1, 3).value == "Night":
+                    print(IdentityConfirmList)
+                    print(player_num)
+                    print(commandnum)
                     if event.source.type == "group":
                         message = TextSendMessage(text="現在是晚上閉嘴好嗎？")
                     elif IdentityConfirmList[player_num-2] == "Murderer":
@@ -152,9 +154,8 @@ def handle_message(event):
                 elif WorkSheet_Game.cell(1, 3).value == "Day":
                     if event.source.type == "user":
                         message = TextSendMessage(text="白天不要說悄悄話行不行？")
-                    WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
-                cell = WorkSheet_Game.find("ABCDE")
-                cell.row = player_num
+                    else:
+                        WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
             except Exception as Error:
                 message = TextSendMessage(text="沒有此玩家~~~")
                 print(Error)
