@@ -76,6 +76,7 @@ def handle_message(event):
         WorkSheet_Game.update_cell(1, 2, str(players_amount))
 
     elif word == "#遊戲開始":
+        time.sleep(60)
         players_amount = int(WorkSheet_Game.cell(1, 2).value)
         if players_amount == 8:
             message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
@@ -121,13 +122,19 @@ def handle_message(event):
         pattern = re.compile(r'^(#)([1-8]{1})$')
         match = pattern.search(word)
         if match != None:
+            IdentityConfirmList = WorkSheet_Game.col_values(3)
             commandnum = int(match.group(2))
             try:
-                print(commandnum)
+                # print(commandnum)
                 cell = WorkSheet_Game.find(event.source.user_id)
+                cell.row = player_num
+                if IdentityConfirmList[player_num-2] == "Murderer":
+                    print("OuO")
+                elif IdentityConfirmList[player_num-2] == "Detective":
+                    print("OaO")
                 print(cell.row, cell.col, cell.value)
                 cell = WorkSheet_Game.find("ABCDE")
-                print(cell.row, cell.col, cell.value)
+                cell.row = player_num
             except Exception as Error:
                 message = TextSendMessage(text="沒有此玩家~~~")
                 print(Error)
