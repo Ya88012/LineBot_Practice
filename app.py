@@ -57,13 +57,13 @@ def handle_message(event):
     if word == "你好":
         message = TextSendMessage(text="Hello~~~")
 
-    if word == "#天黑請閉眼":
+    elif word == "#天黑請閉眼":
         WorkSheet_Game.clear()
         message = TextSendMessage(text="已創立新遊戲~~~")
         WorkSheet_Game.update_cell(1, 1, event.source.group_id)
         WorkSheet_Game.update_cell(1, 2, "0")
 
-    if word == "#準備完成":
+    elif word == "#準備完成":
         Temp = []
         Temp.append(str(event.source.user_id))
         profile = line_bot_api.get_profile(event.source.user_id)
@@ -75,7 +75,7 @@ def handle_message(event):
         players_amount += 1
         WorkSheet_Game.update_cell(1, 2, str(players_amount))
 
-    if word == "#遊戲開始":
+    elif word == "#遊戲開始":
         players_amount = int(WorkSheet_Game.cell(1, 2).value)
         if players_amount == 8:
             message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
@@ -117,20 +117,21 @@ def handle_message(event):
         GameStatus = WorkSheet_Game.cell(1, 3).value
         print(GameStatus)
 
-    pattern = re.compile(r'^(#)([1-8]{1})$')
-    match = pattern.search(word)
-    if match != None:
-        commandnum = int(match.group(2))
-        try:
-            print(commandnum)
-            cell = WorkSheet_Game.find(event.source.user_id)
-            print(cell.row, cell.col, cell.value)
-            cell = WorkSheet_Game.find("ABCDE")
-            print(cell.row, cell.col, cell.value)
-        except Exception as Error:
-            print(Error)
     else:
-        message = TextSendMessage(text="指令操作錯誤~~~")
+        pattern = re.compile(r'^(#)([1-8]{1})$')
+        match = pattern.search(word)
+        if match != None:
+            commandnum = int(match.group(2))
+            try:
+                print(commandnum)
+                cell = WorkSheet_Game.find(event.source.user_id)
+                print(cell.row, cell.col, cell.value)
+                cell = WorkSheet_Game.find("ABCDE")
+                print(cell.row, cell.col, cell.value)
+            except Exception as Error:
+                print(Error)
+        else:
+            message = TextSendMessage(text="指令操作錯誤~~~")
 
     line_bot_api.reply_message(event.reply_token, message)
 
