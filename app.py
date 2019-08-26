@@ -129,6 +129,7 @@ def handle_message(event):
                 cell = WorkSheet_Game.find("ABCDE")
                 print(cell.row, cell.col, cell.value)
             except Exception as Error:
+                message = TextSendMessage(text="沒有此玩家~~~")
                 print(Error)
         else:
             message = TextSendMessage(text="指令操作錯誤~~~")
