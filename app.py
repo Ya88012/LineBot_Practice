@@ -132,7 +132,7 @@ def handle_message(event):
                         cell = WorkSheet_Game.find(event.source.user_id)
                         IdentityConfirm = WorkSheet_Game.cell(int(cell.row), 3).value
                         if IdentityConfirm == "Murderer":
-                            Temp = int(WorkSheet_Game.cell(i, 5).value) += 1
+                            Temp = int(WorkSheet_Game.cell(i, 5).value) + 1
                             WorkSheet_Game.update_cell(i, 5, str(Temp))
                             message.append(TextMessage(text="{} 已投票給 {} 號~").format(WorkSheet_Game.cell(int(cell.row), 2).value, i))
                             if int(WorkSheet_Game.cell(i, 5).value) >= murderersnum:
