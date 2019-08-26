@@ -88,11 +88,17 @@ def handle_message(event):
             Innocentidlist = []
 
             cell_list = WorkSheet_Game.range("D2:D9")
-            WorkSheet_Game.update_cells(cell_list, "Alive")
+            for cell in cell_list:
+                cell.value = "Alive"
+            WorkSheet_Game.update_cells(cell_list)
             cell_list = WorkSheet_Game.range("C2:C9")
-            WorkSheet_Game.update_cells(cell_list, "Innocent")
+            for cell in cell_list:
+                cell.value = "Innocent
+            WorkSheet_Game.update_cells(cell_list)
             cell_list = WorkSheet_Game.range("E2:E9")
-            WorkSheet_Game.update_cells(cell_list, "0")
+            for cell in cell_list:
+                cell.value = "0"
+            WorkSheet_Game.update_cells(cell_list)
 
             for i in range(2, players_amount+2):
                 Innocentidlist.append(WorkSheet_Game.cell(i, 1).value)
