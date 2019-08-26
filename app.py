@@ -120,7 +120,7 @@ def handle_message(event):
             print(Innocentidlist)
             print(Murdereridlist)
             print(Detectiveidlist)
-            print(WorkSheet_Game.cell(20, 20).value)
+            print(type(WorkSheet_Game.cell(20, 20).value))
 
         elif players_amount < 8:
             message = TextSendMessage(text="人數過少，無法進入遊戲~")
@@ -141,7 +141,7 @@ def handle_message(event):
             try:
                 # print(commandnum)
                 cell = WorkSheet_Game.find(event.source.user_id)
-                cell.row = player_num
+                player_num = cell.row
                 if WorkSheet_Game.cell(1, 3).value == "Night":
                     if event.source.type == "group":
                         message = TextSendMessage(text="現在是晚上閉嘴好嗎？")
