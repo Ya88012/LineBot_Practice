@@ -199,7 +199,7 @@ def handle_message(event):
         else:
             message = TextSendMessage(text="指令操作錯誤~~~")
         
-        line_bot_api.reply_message(event.reply_token, message)
+        # line_bot_api.reply_message(event.reply_token, message)
 
 
 import os
