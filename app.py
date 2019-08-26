@@ -93,7 +93,7 @@ def handle_message(event):
             WorkSheet_Game.update_cells(cell_list)
             cell_list = WorkSheet_Game.range("C2:C9")
             for cell in cell_list:
-                cell.value = "Innocent
+                cell.value = "Innocent"
             WorkSheet_Game.update_cells(cell_list)
             cell_list = WorkSheet_Game.range("E2:E9")
             for cell in cell_list:
@@ -120,6 +120,7 @@ def handle_message(event):
             print(Innocentidlist)
             print(Murdereridlist)
             print(Detectiveidlist)
+            print(WorkSheet_Game.cell(100, 100).value)
 
         elif players_amount < 8:
             message = TextSendMessage(text="人數過少，無法進入遊戲~")
