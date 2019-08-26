@@ -60,7 +60,6 @@ def handle_message(event):
         WorkSheet_Game.clear()
         message = TextSendMessage(text="已創立新遊戲~~~")
         WorkSheet_Game.update_cell(100, 20, event.source.group_id)
-        WorkSheet_Game.update_cell(100, 19, "0")
 
     if word == "#準備完成":
         Temp = []
@@ -69,9 +68,6 @@ def handle_message(event):
         player_name = profile.display_name
         Temp.append(player_name)       
         WorkSheet_Game.append_row(Temp)
-        players_amount = int(WorkSheet_Game.cell(100, 19).value)
-        players_amount += 1
-        WorkSheet_Game.update_cell(100, 19, str(players_amount))
         message = TextSendMessage(text="玩家 {} 已登入遊戲~~~".format(player_name))
 
     if word == "#遊戲開始":
