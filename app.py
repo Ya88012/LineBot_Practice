@@ -56,12 +56,14 @@ def handle_message(event):
     
     if word == "你好":
         message = TextSendMessage(text="Hello~~~")
+        line_bot_api.reply_message(event.reply_token, message)
 
     elif word == "#天黑請閉眼":
         WorkSheet_Game.clear()
         message = TextSendMessage(text="已創立新遊戲~~~")
         WorkSheet_Game.update_cell(1, 1, event.source.group_id)
         WorkSheet_Game.update_cell(1, 2, "0")
+        line_bot_api.reply_message(event.reply_token, message)
 
     elif word == "#準備完成":
         Temp = []
@@ -74,6 +76,7 @@ def handle_message(event):
         players_amount = int(WorkSheet_Game.cell(1, 2).value)
         players_amount += 1
         WorkSheet_Game.update_cell(1, 2, str(players_amount))
+        line_bot_api.reply_message(event.reply_token, message)
 
     elif word == "#遊戲開始":
         players_amount = int(WorkSheet_Game.cell(1, 2).value)
@@ -84,10 +87,14 @@ def handle_message(event):
             Detectiveidlist = []
             Innocentidlist = []
 
+            cell_list = WorkSheet_Game.range("D2:D9")
+            WorkSheet_Game.update_cells(cell_list, "Alive")
+            cell_list = WorkSheet_Game.range("C2:C9")
+            WorkSheet_Game.update_cells(cell_list, "Innocent")
+            cell_list = WorkSheet_Game.range("E2:E9")
+            WorkSheet_Game.update_cells(cell_list, "0")
+
             for i in range(2, players_amount+2):
-                WorkSheet_Game.update_cell(i, 3, "Innocent")
-                WorkSheet_Game.update_cell(i, 4, "Alive")
-                WorkSheet_Game.update_cell(i, 5, "0")
                 Innocentidlist.append(WorkSheet_Game.cell(i, 1).value)
             for j in speciallist[0:2]:
                 WorkSheet_Game.update_cell(j, 3, "Murderer")
@@ -116,9 +123,7 @@ def handle_message(event):
         WorkSheet_Game.update_cell(1, 3, "Night")
         GameStatus = WorkSheet_Game.cell(1, 3).value
         print(GameStatus)
-        for i in range(0,3):
-            time.sleep(10)
-            print(i)
+        line_bot_api.reply_message(event.reply_token, message)
 
     else:
         pattern = re.compile(r'^(#)([1-8]{1})$')
@@ -130,11 +135,17 @@ def handle_message(event):
                 # print(commandnum)
                 cell = WorkSheet_Game.find(event.source.user_id)
                 cell.row = player_num
-                if IdentityConfirmList[player_num-2] == "Murderer":
-                    print("OuO")
-                elif IdentityConfirmList[player_num-2] == "Detective":
-                    print("OaO")
-                print(cell.row, cell.col, cell.value)
+                if WorkSheet_Game.cell(1, 3).value == "Night":
+                    if event.source.type == "group":
+                        message = TextSendMessage(text="現在是晚上閉嘴好嗎？")
+                    elif IdentityConfirmList[player_num-2] == "Murderer":
+                        WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
+                    elif IdentityConfirmList[player_num-2] == "Detective":
+                        WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
+                elif WorkSheet_Game.cell(1, 3).value == "Day":
+                    if event.source.type == "user":
+                        message = TextSendMessage(text="白天不要說悄悄話行不行？")
+                    WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
                 cell = WorkSheet_Game.find("ABCDE")
                 cell.row = player_num
             except Exception as Error:
@@ -142,8 +153,8 @@ def handle_message(event):
                 print(Error)
         else:
             message = TextSendMessage(text="指令操作錯誤~~~")
-
-    line_bot_api.reply_message(event.reply_token, message)
+        
+        line_bot_api.reply_message(event.reply_token, message)
 
 
 import os
