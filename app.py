@@ -14,6 +14,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import random
 import time
+import re
 
 line_bot_api = LineBotApi('SAdvc68i+4s9PMT7rGO3yYXod3Z0FX3umAAtYZf2EsszDq9wliFPdkYNweJqNyzu4pOwCOVKFW0NkESl092sqOty7PlhYJA7DeQ65FkaTM47oMt3KC/EJ2o3ynALkym8iQuvVPnBXmtstW6TAQZGXQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('b870f02c816b775a2dd5013c84cac78d')
@@ -117,13 +118,21 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
         print(GameStatus)
 
-    if word == "#1":
-        cell = WorkSheet_Game.find(event.source.user_id)
-        print(cell.row, cell.col)
+        pattern = re.compile(r'^(#)([1-8]{1})$')
+        match = pattern.search(word)
+        if match != None:
+            commandnum = int(match.group(2))
+            try:
+                print(commandnum)
+                cell = WorkSheet_Game.find(event.source.user_id)
+                print(cell.row, cell.col, cell.value)
+                cell = WorkSheet_Game.find("ABCDE")
+                print(cell.row, cell.col, cell.value)
+            except Exception as Error:
+                print(Error)
+        else:
+            message = TextSendMessage(text="指令操作錯誤~~~")
 
-        cell = WorkSheet_Game.find("ABCDE")
-        print(cell)
-        print(cell.row, cell.col)
 
     line_bot_api.reply_message(event.reply_token, message)
 
