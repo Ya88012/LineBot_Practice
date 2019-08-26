@@ -147,9 +147,9 @@ def handle_message(event):
                     print(commandnum)
                     if event.source.type == "group":
                         message = TextSendMessage(text="現在是晚上閉嘴好嗎？")
-                    elif IdentityConfirmList[player_num-2] == "Murderer":
+                    elif IdentityConfirmList[player_num-1] == "Murderer":
                         WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
-                    elif IdentityConfirmList[player_num-2] == "Detective":
+                    elif IdentityConfirmList[player_num-1] == "Detective":
                         WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
                 elif WorkSheet_Game.cell(1, 3).value == "Day":
                     if event.source.type == "user":
