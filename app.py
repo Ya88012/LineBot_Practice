@@ -119,11 +119,11 @@ def handle_message(event):
 
     if word == "#1":
         cell = WorkSheet_Game.find(event.source.user_id)
-        print(cell.row, cell.column)
+        print(cell.row, cell.col)
 
         cell = WorkSheet_Game.find("ABCDE")
         print(cell)
-        print(cell.row, cell.column)
+        print(cell.row, cell.col)
 
     line_bot_api.reply_message(event.reply_token, message)
 
