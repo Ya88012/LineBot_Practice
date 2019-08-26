@@ -139,7 +139,9 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
         line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1個晚上~~~"), TextMessage(text="該做事的別睡了哦~~~")])
         
-        time.sleep(15)
+        for i in range(15):
+            time.sleep(1)
+            print(i+1)
         for i in Murderernumlist:
             if WorkSheet_Game.cell(i+1, 4).value != "Alive":
                 Murderernumlist.remove(i)
