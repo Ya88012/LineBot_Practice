@@ -54,6 +54,7 @@ def handle_message(event):
     # line_bot_api.reply_message(
     #     event.reply_token,
     #     TextSendMessage(text=event.message.text))
+    global players_amount
     word = event.message.text
     
     if word == "你好":
@@ -65,7 +66,6 @@ def handle_message(event):
         WorkSheet_Game.update_cell(100, 20, event.source.group_id)
 
     if word == "#準備完成":
-        global players_amount
         Temp = []
         Temp.append(str(event.source.user_id))
         profile = line_bot_api.get_profile(event.source.user_id)
@@ -76,7 +76,6 @@ def handle_message(event):
         players_amount += 1
 
     if word == "#遊戲開始":
-        global players_amount
         if players_amount == 8:
             message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
             speciallist = random.sample(range(1, players_amount+1), 4)
