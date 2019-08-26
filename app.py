@@ -117,9 +117,13 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
         print(GameStatus)
 
-    for i in range(1,players_amount+1):
-        if word == "#"+str(i):
-            message = TextSendMessage(text=word)
+    if word == "#1":
+        cell = WorkSheet_Game.find(event.source.user_id)
+        print(cell.row, cell.column)
+
+        cell = WorkSheet_Game.find("ABCDE")
+        print(cell)
+        print(cell.row, cell.column)
 
     line_bot_api.reply_message(event.reply_token, message)
 
