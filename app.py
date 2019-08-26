@@ -76,7 +76,6 @@ def handle_message(event):
         WorkSheet_Game.update_cell(1, 2, str(players_amount))
 
     elif word == "#遊戲開始":
-        time.sleep(60)
         players_amount = int(WorkSheet_Game.cell(1, 2).value)
         if players_amount == 8:
             message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
@@ -117,6 +116,9 @@ def handle_message(event):
         WorkSheet_Game.update_cell(1, 3, "Night")
         GameStatus = WorkSheet_Game.cell(1, 3).value
         print(GameStatus)
+        for i in range(0,3)
+        time.sleep(10)
+        print(i)
 
     else:
         pattern = re.compile(r'^(#)([1-8]{1})$')
