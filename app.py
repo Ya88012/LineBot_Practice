@@ -63,7 +63,6 @@ def handle_message(event):
         WorkSheet_Game.update_cell(100, 19, "0")
 
     if word == "#準備完成":
-        global players_amount
         Temp = []
         Temp.append(str(event.source.user_id))
         profile = line_bot_api.get_profile(event.source.user_id)
@@ -72,7 +71,7 @@ def handle_message(event):
         WorkSheet_Game.append_row(Temp)
         players_amount = int(WorkSheet_Game.cell(100, 19).value)
         players_amount += 1
-        WorkSheet_Game.update_cell(str(players_amount))
+        WorkSheet_Game.update_cell(100, 19, str(players_amount))
         message = TextSendMessage(text="玩家 {} 已登入遊戲~~~".format(player_name))
 
     if word == "#遊戲開始":
