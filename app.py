@@ -115,24 +115,22 @@ def handle_message(event):
 
         WorkSheet_Game.update_cell(1, 3, "Night")
         GameStatus = WorkSheet_Game.cell(1, 3).value
-        line_bot_api.reply_message(event.reply_token, message)
         print(GameStatus)
 
-        pattern = re.compile(r'^(#)([1-8]{1})$')
-        match = pattern.search(word)
-        if match != None:
-            commandnum = int(match.group(2))
-            try:
-                print(commandnum)
-                cell = WorkSheet_Game.find(event.source.user_id)
-                print(cell.row, cell.col, cell.value)
-                cell = WorkSheet_Game.find("ABCDE")
-                print(cell.row, cell.col, cell.value)
-            except Exception as Error:
-                print(Error)
-        else:
-            message = TextSendMessage(text="指令操作錯誤~~~")
-
+    pattern = re.compile(r'^(#)([1-8]{1})$')
+    match = pattern.search(word)
+    if match != None:
+        commandnum = int(match.group(2))
+        try:
+            print(commandnum)
+            cell = WorkSheet_Game.find(event.source.user_id)
+            print(cell.row, cell.col, cell.value)
+            cell = WorkSheet_Game.find("ABCDE")
+            print(cell.row, cell.col, cell.value)
+        except Exception as Error:
+            print(Error)
+    else:
+        message = TextSendMessage(text="指令操作錯誤~~~")
 
     line_bot_api.reply_message(event.reply_token, message)
 
