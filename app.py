@@ -10,9 +10,6 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-global players_amount
-players_amount = 0
-
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import random
@@ -54,7 +51,6 @@ def handle_message(event):
     # line_bot_api.reply_message(
     #     event.reply_token,
     #     TextSendMessage(text=event.message.text))
-    global players_amount
     word = event.message.text
     
     if word == "你好":
@@ -63,7 +59,8 @@ def handle_message(event):
     if word == "#天黑請閉眼":
         WorkSheet_Game.clear()
         message = TextSendMessage(text="已創立新遊戲~~~")
-        WorkSheet_Game.update_cell(100, 20, event.source.group_id)
+        WorkSheet_Game.update_cell(1, 1, event.source.group_id)
+        WorkSheet_Game.update_cell(1, 2, "0")
 
     if word == "#準備完成":
         Temp = []
@@ -73,17 +70,20 @@ def handle_message(event):
         Temp.append(player_name)       
         WorkSheet_Game.append_row(Temp)
         message = TextSendMessage(text="玩家 {} 已登入遊戲~~~".format(player_name))
+        players_amount = int(WorkSheet_Game.cell(1, 2).value)
         players_amount += 1
+        WorkSheet_Game.update_cell(1, 2, str(players_amount))
 
     if word == "#遊戲開始":
+        players_amount = int(WorkSheet_Game.cell(1, 2).value)
         if players_amount == 8:
             message = [TextMessage(text="GameStart~~~"), TextMessage(text="本次遊戲共 {} 人遊玩".format(players_amount))]
-            speciallist = random.sample(range(1, players_amount+1), 4)
+            speciallist = random.sample(range(2, players_amount+2), 4)
             Murdereridlist = []
             Detectiveidlist = []
             Innocentidlist = []
 
-            for i in range(1, players_amount+1):
+            for i in range(2, players_amount+2):
                 WorkSheet_Game.update_cell(i, 3, "Innocent")
                 WorkSheet_Game.update_cell(i, 4, "Alive")
                 WorkSheet_Game.update_cell(i, 5, "0")
@@ -112,10 +112,11 @@ def handle_message(event):
         else:
             message = TextSendMessage(text="人數過多，無法進入遊戲~")
 
-        WorkSheet_Game.update_cell(100, 18, "Night")
-        GameStatus = WorkSheet_Game.cell(100, 18).value
+        WorkSheet_Game.update_cell(1, 3, "Night")
+        GameStatus = WorkSheet_Game.cell(1, 3).value
         line_bot_api.reply_message(event.reply_token, message)
-        NightTimeVote(GameStatus)
+        print(GameStatus)
+        # NightTimeVote(GameStatus)
     
     def NightTimeVote(GameStatus):
         @handler.add(MessageEvent, message=TextMessage)
