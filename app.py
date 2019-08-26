@@ -94,7 +94,7 @@ def handle_message(event):
             cell_list = WorkSheet_Game.range("D2:D9")
             for cell in cell_list:
                 cell.value = "Alive"
-            WorkSheet_Game.update_cells(cell_list
+            WorkSheet_Game.update_cells(cell_list)
             cell_list = WorkSheet_Game.range("E2:E9")
             for cell in cell_list:
                 cell.value = "0"
