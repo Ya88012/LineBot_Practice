@@ -132,6 +132,7 @@ def handle_message(event):
             message = TextSendMessage(text="人數過多，無法進入遊戲~")
 
         NightKillerVote = []
+        NightDetectiveVote = []
         WorkSheet_Game.update_cell(1, 3, "Night")
         GameStatus = WorkSheet_Game.cell(1, 3).value
         print(GameStatus)
@@ -152,11 +153,11 @@ def handle_message(event):
         for i in Detectivenumlist:
             if WorkSheet_Game.cell(i+1, 4).value != "Alive":
                 Detectivenumlist.remove(i)
-                Detectivenumlist.remove(WorkSheet_Game.cell(i+1, 1).value)
+                Detectiveidlist.remove(WorkSheet_Game.cell(i+1, 1).value)
         for j in Detectivenumlist:
-            Detectivenumlist.append(int(WorkSheet_Game.cell(j+1, 5).value))
-        for k in Detectivenumlist:
-            Temp = Detectivenumlist.count(k)
+            NightDetectiveVote.append(int(WorkSheet_Game.cell(j+1, 5).value))
+        for k in NightDetectiveVote:
+            Temp = NightDetectiveVote.count(k)
             if Temp > len(Detectivenumlist):
                 Surveyresult = WorkSheet_Game.cell(k+1, 3).cell
                 # line_bot_api.multicast(Innocentidlist, TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult))])
