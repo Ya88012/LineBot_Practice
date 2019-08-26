@@ -87,7 +87,7 @@ def handle_message(event):
             for i in range(1, players_amount+1):
                 WorkSheet_Game.update_cell(i, 3, "Innocent")
                 WorkSheet_Game.update_cell(i, 4, "Alive")
-                WorkSheet_Game.update_cell(i, 6, "0")
+                WorkSheet_Game.update_cell(i, 5, "0")
                 Innocentidlist.append(WorkSheet_Game.cell(i, 1).value)
             for j in speciallist[0:2]:
                 WorkSheet_Game.update_cell(j, 3, "Murderer")
