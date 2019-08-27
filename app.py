@@ -139,6 +139,8 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
         line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1個晚上~~~"), TextMessage(text="該做事的別睡了哦~~~")])
         
+        print(Murderernumlist)
+        print(Murdereridlist)
         for i in range(60):
             time.sleep(1)
             print(i+1)
@@ -146,11 +148,13 @@ def handle_message(event):
             if WorkSheet_Game.cell(i+1, 4).value != "Alive":
                 Murderernumlist.remove(i)
                 Murdereridlist.remove(WorkSheet_Game.cell(i+1, 1).value)
+        print("Stage1")
         for j in Murderernumlist:
             NightKillerVote.append(int(WorkSheet_Game.cell(j+1, 5).value))
+        print("Stage2")
         for k in NightKillerVote:
             Temp = NightKillerVote.count(k)
-            if Temp > len(NightKillerVote):
+            if Temp > len(NightKillerVote)/2:
                 WorkSheet_Game.update_cell(k+1, 4, "Dead")
                 print("你們成功殺死了 {} 號".format(k+1))
         for i in Detectivenumlist:
@@ -161,7 +165,7 @@ def handle_message(event):
             NightDetectiveVote.append(int(WorkSheet_Game.cell(j+1, 5).value))
         for k in NightDetectiveVote:
             Temp = NightDetectiveVote.count(k)
-            if Temp > len(Detectivenumlist):
+            if Temp > len(Detectivenumlist)/2:
                 Surveyresult = WorkSheet_Game.cell(k+1, 3).cell
                 # line_bot_api.multicast(Innocentidlist, TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult))])
                 print("{} 號的身分為 {}".format(k, Surveyresult))
