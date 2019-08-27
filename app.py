@@ -201,7 +201,7 @@ def handle_message(event):
                         WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
                         # line_bot_api.multicast(Murdereridlist, [TextMessge(text="{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))])
                         print(Murdereridlist)
-                        print(text="{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))
+                        print("{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))
                     elif IdentityConfirmList[player_num-1] == "Detective":
                         WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
                         # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))])
