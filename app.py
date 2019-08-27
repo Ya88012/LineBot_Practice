@@ -113,13 +113,11 @@ def handle_message(event):
                     Murdereridlist.append(Tempkiller)
                     Innocentidlist.remove(Tempkiller)
                 for k in speciallist[2:4]:
-                    # WorkSheet_Game.update_cell(k, 3, "Detective")
-                    # TempDetective = WorkSheet_Game.cell(k, 1).value
-                    # Detectivenumlist.append(k-1)
-                    # Detectiveidlist.append(TempDetective)
-                    # Innocentidlist.remove(TempDetective)
-                    Detectiveidlist = ["U5c8e120e0b051e6998f4966d74d79a75", "A1"]
-                    Detectivenumlist = [1, 2]
+                    WorkSheet_Game.update_cell(k, 3, "Detective")
+                    TempDetective = WorkSheet_Game.cell(k, 1).value
+                    Detectivenumlist.append(k-1)
+                    Detectiveidlist.append(TempDetective)
+                    Innocentidlist.remove(TempDetective)
 
                 WorkSheet_Game.insert_row(Murdereridlist, 21)
                 WorkSheet_Game.insert_row(Detectiveidlist, 22)
@@ -139,6 +137,7 @@ def handle_message(event):
                 print(Murdereridlist)
                 print(Detectivenumlist)
                 print(Detectiveidlist)
+                print(Innocentidlist)
 
                 for i in range(90):
                     time.sleep(1)
@@ -206,7 +205,13 @@ def handle_message(event):
                         print("K=1")
                         # message = TextSendMessage(text="本回合沒有調查任何人~~~傻眼#")
                         print("本回合沒有調查任何人~~~傻眼#")
-                # line_bot_api.multicast(Innocentidlist, message)
+                # line_bot_api.multicast(Detectiveidlist, message)
+
+                print(Murderernumlist)
+                print(Murdereridlist)
+                print(Detectivenumlist)
+                print(Detectiveidlist)
+                print(Innocentidlist)
 
                 cell_list = WorkSheet_Game.range("E2:E9")
                 for cell in cell_list:
@@ -255,6 +260,12 @@ def handle_message(event):
                     else:
                         print("K=1")
                         message = TextSendMessage(text="本次公民投票無人出局")
+                        
+                print(Murderernumlist)
+                print(Murdereridlist)
+                print(Detectivenumlist)
+                print(Detectiveidlist)
+                print(Innocentidlist)
                 
                 line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, message)
                 if len(Murdereridlist) == 0:
