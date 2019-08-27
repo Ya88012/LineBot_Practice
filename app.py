@@ -162,16 +162,19 @@ def handle_message(event):
                     # message = TextSendMessage(text="本回合無任何死者~~~傻眼#")
                     k = "無死者"
                     print("本回合無任何死者~~~傻眼#")
+                    l = k
                     break
                 else:
                     WorkSheet_Game.update_cell(k+1, 4, "Dead")
                     # message = TextSendMessage(text="你們成功殺死了 {} 號".format(k))
                     print("你們成功殺死了 {} 號".format(k))
+                    l = k
                     break
             else:
                 print("K=1")
                 # message = TextSendMessage(text="本回合無任何死者~~~傻眼#")
                 k = "無死者"
+                l = k
                 print("本回合無任何死者~~~傻眼#")
         # line_bot_api.multicast(Murdereridlist, message)
         for i in Detectivenumlist:
@@ -214,7 +217,7 @@ def handle_message(event):
         WorkSheet_Game.update_cells(cell_list)
         print("OuO")
 
-        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天早上~~~"), TextMessage(text="昨天晚上的死者為 {}".format(str(k)+"號")), TextMessage(text="請開始討論並投票~~~")])
+        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天早上~~~"), TextMessage(text="昨天晚上的死者為 {}".format(str(l)+"號")), TextMessage(text="請開始討論並投票~~~")])
 
         for j in range(90):
             time.sleep(1)
@@ -228,6 +231,7 @@ def handle_message(event):
             if Temp > len(DayVoteList)/2:
                 # print(Temp)
                 if i == "0":
+                    print("是0排除的")
                     message = TextSendMessage(text="本次公民投票無人出局")
                     break
                 else:
@@ -235,6 +239,7 @@ def handle_message(event):
                     message = TextSendMessage(text="{} 號已經被 公民投票判定出局".format(i))
                     break
             else:
+                print("不是0排除的")
                 message = TextSendMessage(text="本次公民投票無人出局")
         
         line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, message)
