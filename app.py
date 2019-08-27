@@ -155,9 +155,10 @@ def handle_message(event):
             NightKillerVote.append(int(WorkSheet_Game.cell(j+1, 5).value))
         for k in NightKillerVote:
             Temp = NightKillerVote.count(k)
-            print(Temp)
+            # print(Temp)
             if Temp > len(NightKillerVote)/2:
                 if k == 0:
+                    print("K=0")
                     # message = TextSendMessage(text="本回合無任何死者~~~傻眼#")
                     k = "無死者"
                     print("本回合無任何死者~~~傻眼#")
@@ -168,6 +169,7 @@ def handle_message(event):
                     print("你們成功殺死了 {} 號".format(k))
                     break
             else:
+                print("K=1")
                 # message = TextSendMessage(text="本回合無任何死者~~~傻眼#")
                 k = "無死者"
                 print("本回合無任何死者~~~傻眼#")
@@ -180,9 +182,10 @@ def handle_message(event):
             NightDetectiveVote.append(int(WorkSheet_Game.cell(j+1, 5).value))
         for k in NightDetectiveVote:
             Temp = NightDetectiveVote.count(k)
-            print(Temp)
+            # print(Temp)
             if Temp > len(NightDetectiveVote)/2:
-                if k == 0:
+                if k == "0":
+                    print("K=0")
                     # message = TextSendMessage(text="本回合沒有調查任何人~~~傻眼#")
                     print("本回合沒有調查任何人~~~傻眼#")
                     break
@@ -192,6 +195,7 @@ def handle_message(event):
                     print("{} 號的身分為 {}".format(k, Surveyresult))
                     break
             else:
+                print("K=1")
                 # message = TextSendMessage(text="本回合沒有調查任何人~~~傻眼#")
                 print("本回合沒有調查任何人~~~傻眼#")
         # line_bot_api.multicast(Innocentidlist, message)
@@ -222,7 +226,7 @@ def handle_message(event):
         for i in DayVoteList:
             Temp = DayVoteList.count(i)
             if Temp > len(DayVoteList)/2:
-                print(Temp)
+                # print(Temp)
                 if i == "0":
                     message = TextSendMessage(text="本次公民投票無人出局")
                     break
