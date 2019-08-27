@@ -204,6 +204,7 @@ def handle_message(event):
         for cell in cell_list:
             cell.value = ""
         WorkSheet_Game.update_cells(cell_list)
+        print("OuO")
 
 
         line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天早上~~~"), TextMessage(text="昨天晚上的死者為 {}".format(str(k)+"號")), TextMessage(text="請開始討論並投票~~~")])
