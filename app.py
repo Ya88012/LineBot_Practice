@@ -139,7 +139,9 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
         line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天晚上~~~"), TextMessage(text="該做事的別睡了哦~~~")])
         
+        print(Murderernumlist)
         print(Murdereridlist)
+        print(Detectivenumlist)
         print(Detectiveidlist)
 
         for i in range(90):
