@@ -159,6 +159,7 @@ def handle_message(event):
                     # message = TextSendMessage(text="本回合無任何死者~~~傻眼#")
                     k = "無死者"
                     print("本回合無任何死者~~~傻眼#")
+                    break
                 else:
                     WorkSheet_Game.update_cell(k+1, 4, "Dead")
                     # message = TextSendMessage(text="你們成功殺死了 {} 號".format(k))
@@ -182,6 +183,7 @@ def handle_message(event):
                 if k == 0:
                     # message = TextSendMessage(text="本回合沒有調查任何人~~~傻眼#")
                     print("本回合沒有調查任何人~~~傻眼#")
+                    break
                 else:
                     Surveyresult = WorkSheet_Game.cell(k+1, 3).value
                     # message = TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult))
@@ -206,7 +208,6 @@ def handle_message(event):
         WorkSheet_Game.update_cells(cell_list)
         print("OuO")
 
-
         line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天早上~~~"), TextMessage(text="昨天晚上的死者為 {}".format(str(k)+"號")), TextMessage(text="請開始討論並投票~~~")])
 
         for j in range(90):
@@ -222,9 +223,11 @@ def handle_message(event):
                 print(Temp)
                 if i == "0":
                     message = TextSendMessage(text="本次公民投票無人出局")
-                WorkSheet_Game.update_cell(int(i)+1, 4, "Dead")
-                message = TextSendMessage(text="{} 號已經被 公民投票判定出局".format(i))
-                break
+                    break
+                else:
+                    WorkSheet_Game.update_cell(int(i)+1, 4, "Dead")
+                    message = TextSendMessage(text="{} 號已經被 公民投票判定出局".format(i))
+                    break
             else:
                 message = TextSendMessage(text="本次公民投票無人出局")
         
