@@ -196,8 +196,15 @@ def handle_message(event):
         for cell in cell_list:
             cell.value = "0"
         WorkSheet_Game.update_cells(cell_list)
-        WorkSheet_Game.values_clear("A21:E21")
-        WorkSheet_Game.values_clear("A22:E22")
+        cell_list = WorkSheet_Game.range("A21:E21")
+        for cell in cell_list:
+            cell.value = ""
+        WorkSheet_Game.update_cells(cell_list)
+        cell_list = WorkSheet_Game.range("A22:E22")
+        for cell in cell_list:
+            cell.value = ""
+        WorkSheet_Game.update_cells(cell_list)
+
 
         line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天早上~~~"), TextMessage(text="昨天晚上的死者為 {}".format(str(k)+"號")), TextMessage(text="請開始討論並投票~~~")])
 
@@ -246,7 +253,7 @@ def handle_message(event):
                         WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
                         # line_bot_api.multicast(Detectiveidlist, [TextMessge(text="{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))])
                         print(Detectiveidlist)
-                        print("{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num-1, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))
+                        print("{} 把票投給了 {}號 {}".format(WorkSheet_Game.cell(player_num, 2).value, commandnum, WorkSheet_Game.cell(commandnum+1, 2).value))
                 elif WorkSheet_Game.cell(1, 3).value == "Day":
                     if event.source.type == "user":
                         message = TextSendMessage(text="白天不要說悄悄話行不行？")
