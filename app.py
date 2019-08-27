@@ -137,7 +137,7 @@ def handle_message(event):
         GameStatus = WorkSheet_Game.cell(1, 3).value
         print(GameStatus)
         line_bot_api.reply_message(event.reply_token, message)
-        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1個晚上~~~"), TextMessage(text="該做事的別睡了哦~~~")])
+        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天晚上~~~"), TextMessage(text="該做事的別睡了哦~~~")])
         
         print(Murdereridlist)
         print(Detectiveidlist)
@@ -161,6 +161,7 @@ def handle_message(event):
                 break
             else:
                 # message = TextSendMessage(text="本回合無任何死者~~~傻眼#")
+                k = "無死者"
                 print("本回合無任何死者~~~傻眼#")
         line_bot_api.multicast(Murdereridlist, message)
         for i in Detectivenumlist:
@@ -178,9 +179,22 @@ def handle_message(event):
                 print("{} 號的身分為 {}".format(k, Surveyresult))
                 break
             else:
-                message = TextSendMessage(text="本回合沒有調查任何人~~~傻眼#")
+                # message = TextSendMessage(text="本回合沒有調查任何人~~~傻眼#")
                 print("本回合沒有調查任何人~~~傻眼#")
-        line_bot_api.multicast(Innocentidlist, message)
+        # line_bot_api.multicast(Innocentidlist, message)
+
+        cell_list = WorkSheet_Game.range("E2:E9")
+        for cell in cell_list:
+            cell.value = "0"
+        WorkSheet_Game.update_cells(cell_list)
+
+        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天早上~~~"), TextMessage(text="昨天晚上的死者為 {}".format(str(k)+"號")), TextMessage(text="請開始討論並準備投票~~~")])
+
+        for j in range(90):
+            time.sleep(1)
+            print(j+1)
+
+        print("第1天公民投票開始囉~~~")
 
 
     else:
