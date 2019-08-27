@@ -139,25 +139,25 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, message)
         line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1個晚上~~~"), TextMessage(text="該做事的別睡了哦~~~")])
         
-        print(Murderernumlist)
         print(Murdereridlist)
-        for i in range(60):
+        print(Detectiveidlist)
+
+        for i in range(90):
             time.sleep(1)
             print(i+1)
         for i in Murderernumlist:
             if WorkSheet_Game.cell(i+1, 4).value != "Alive":
                 Murderernumlist.remove(i)
                 Murdereridlist.remove(WorkSheet_Game.cell(i+1, 1).value)
-        print("Stage1")
         for j in Murderernumlist:
             NightKillerVote.append(int(WorkSheet_Game.cell(j+1, 5).value))
-        print("Stage2")
         for k in NightKillerVote:
             Temp = NightKillerVote.count(k)
             print(Temp)
             if Temp > len(NightKillerVote)/2:
                 WorkSheet_Game.update_cell(k+1, 4, "Dead")
-                print("你們成功殺死了 {} 號".format(k+1))
+                # line_bot_api.multicast(Murdereridlist, TextSendMessage(text=""你們成功殺死了 {} 號".format(k)))
+                print("你們成功殺死了 {} 號".format(k))
         for i in Detectivenumlist:
             if WorkSheet_Game.cell(i+1, 4).value != "Alive":
                 Detectivenumlist.remove(i)
@@ -167,9 +167,9 @@ def handle_message(event):
         for k in NightDetectiveVote:
             Temp = NightDetectiveVote.count(k)
             print(Temp)
-            if Temp > len(Detectivenumlist)/2:
-                Surveyresult = WorkSheet_Game.cell(k+1, 3).cell.value
-                # line_bot_api.multicast(Innocentidlist, TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult))])
+            if Temp > len(NightDetectiveVote)/2:
+                Surveyresult = WorkSheet_Game.cell(k+1, 3).value
+                # line_bot_api.multicast(Innocentidlist, TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult)))
                 print("{} 號的身分為 {}".format(k, Surveyresult))
 
 
