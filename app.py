@@ -169,7 +169,7 @@ def handle_message(event):
                                 Detectivenumlist.remove(k)
                                 Detectiveidlist.remove(WorkSheet_Game.cell(k+1, 1).value)
                             else:
-                                Innocentidlist.remove(WorkSheet_Game.cell(ki+1, 1).value)
+                                Innocentidlist.remove(WorkSheet_Game.cell(k+1, 1).value)
                             # message = TextSendMessage(text="你們成功殺死了 {} 號".format(k))
                             print("你們成功殺死了 {} 號".format(k))
                             l = k
