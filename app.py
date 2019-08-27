@@ -154,6 +154,7 @@ def handle_message(event):
         print("Stage2")
         for k in NightKillerVote:
             Temp = NightKillerVote.count(k)
+            print(Temp)
             if Temp > len(NightKillerVote)/2:
                 WorkSheet_Game.update_cell(k+1, 4, "Dead")
                 print("你們成功殺死了 {} 號".format(k+1))
@@ -165,8 +166,9 @@ def handle_message(event):
             NightDetectiveVote.append(int(WorkSheet_Game.cell(j+1, 5).value))
         for k in NightDetectiveVote:
             Temp = NightDetectiveVote.count(k)
+            print(Temp)
             if Temp > len(Detectivenumlist)/2:
-                Surveyresult = WorkSheet_Game.cell(k+1, 3).cell
+                Surveyresult = WorkSheet_Game.cell(k+1, 3).cell.value
                 # line_bot_api.multicast(Innocentidlist, TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult))])
                 print("{} 號的身分為 {}".format(k, Surveyresult))
 
