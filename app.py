@@ -248,13 +248,13 @@ def handle_message(event):
                             WorkSheet_Game.update_cell(int(i)+1, 4, "Dead")
                             DeadIdentity = WorkSheet_Game.cell(int(i)+1, 3)
                             if DeadIdentity == "Murderer":
-                                Murderernumlist.remove(i)
+                                Murderernumlist.remove(int(i))
                                 Murdereridlist.remove(WorkSheet_Game.cell(i+1, 1).value)
                             elif DeadIdentity == "Detective":
-                                Detectivenumlist.remove(i)
-                                Detectiveidlist.remove(WorkSheet_Game.cell(i+1, 1).value)
+                                Detectivenumlist.remove(int(i))
+                                Detectiveidlist.remove(WorkSheet_Game.cell(int(i)+1, 1).value)
                             else:
-                                Innocentidlist.remove(WorkSheet_Game.cell(i+1, 1).value)
+                                Innocentidlist.remove(WorkSheet_Game.cell(int(i)+1, 1).value)
                             message = TextSendMessage(text="{} 號已經被 公民投票判定出局".format(i))
                             break
                     else:
