@@ -155,10 +155,15 @@ def handle_message(event):
             Temp = NightKillerVote.count(k)
             print(Temp)
             if Temp > len(NightKillerVote)/2:
-                WorkSheet_Game.update_cell(k+1, 4, "Dead")
-                # message = TextSendMessage(text="你們成功殺死了 {} 號".format(k))
-                print("你們成功殺死了 {} 號".format(k))
-                break
+                if k == 0:
+                    # message = TextSendMessage(text="本回合無任何死者~~~傻眼#")
+                    k = "無死者"
+                    print("本回合無任何死者~~~傻眼#")
+                else:
+                    WorkSheet_Game.update_cell(k+1, 4, "Dead")
+                    # message = TextSendMessage(text="你們成功殺死了 {} 號".format(k))
+                    print("你們成功殺死了 {} 號".format(k))
+                    break
             else:
                 # message = TextSendMessage(text="本回合無任何死者~~~傻眼#")
                 k = "無死者"
@@ -174,10 +179,14 @@ def handle_message(event):
             Temp = NightDetectiveVote.count(k)
             print(Temp)
             if Temp > len(NightDetectiveVote)/2:
-                Surveyresult = WorkSheet_Game.cell(k+1, 3).value
-                # message = TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult))
-                print("{} 號的身分為 {}".format(k, Surveyresult))
-                break
+                if k == 0:
+                    # message = TextSendMessage(text="本回合沒有調查任何人~~~傻眼#")
+                    print("本回合沒有調查任何人~~~傻眼#")
+                else:
+                    Surveyresult = WorkSheet_Game.cell(k+1, 3).value
+                    # message = TextSendMessage(text="{} 號的身分為 {}".format(k, Surveyresult))
+                    print("{} 號的身分為 {}".format(k, Surveyresult))
+                    break
             else:
                 # message = TextSendMessage(text="本回合沒有調查任何人~~~傻眼#")
                 print("本回合沒有調查任何人~~~傻眼#")
@@ -187,14 +196,31 @@ def handle_message(event):
         for cell in cell_list:
             cell.value = "0"
         WorkSheet_Game.update_cells(cell_list)
+        WorkSheet_Game.values_clear("A21:E21")
+        WorkSheet_Game.values_clear("A22:E22")
 
-        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天早上~~~"), TextMessage(text="昨天晚上的死者為 {}".format(str(k)+"號")), TextMessage(text="請開始討論並準備投票~~~")])
+        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第1天早上~~~"), TextMessage(text="昨天晚上的死者為 {}".format(str(k)+"號")), TextMessage(text="請開始討論並投票~~~")])
 
         for j in range(90):
             time.sleep(1)
             print(j+1)
 
-        print("第1天公民投票開始囉~~~")
+        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, TextSendMessage(text="第1天公民投票結束囉~~~"))
+
+        DayVoteList = WorkSheet_Game.col_values(5)
+        for i in DayVoteList:
+            Temp = DayVoteList.count(i)
+            if Temp > len(DayVoteList)/2:
+                print(Temp)
+                if i == "0":
+                    message = TextSendMessage(text="本次公民投票無人出局")
+                WorkSheet_Game.update_cell(int(i)+1, 4, "Dead")
+                message = TextSendMessage(text="{} 號已經被 公民投票判定出局".format(i))
+                break
+            else:
+                message = TextSendMessage(text="本次公民投票無人出局")
+        
+        line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, message)
 
 
     else:
@@ -224,6 +250,8 @@ def handle_message(event):
                 elif WorkSheet_Game.cell(1, 3).value == "Day":
                     if event.source.type == "user":
                         message = TextSendMessage(text="白天不要說悄悄話行不行？")
+                    elif WorkSheet_Game.cell(player_num-1, 4).value != "Alive":
+                        message = TextSendMessage(text="死人是不會打字的！請不要破壞物理法則#")
                     else:
                         WorkSheet_Game.update_cell(player_num, 5, str(commandnum))
             except Exception as Error:
