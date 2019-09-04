@@ -132,7 +132,8 @@ def handle_message(event):
                 print(GameStatus)
                 line_bot_api.reply_message(event.reply_token, message)
                 line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第{}天晚上~~~".format(DayCount)), TextMessage(text="該做事的別睡了哦~~~")])
-                
+                WorkSheet_Game.update_cell(1, 3, "Night")
+
                 print(Murderernumlist)
                 print(Murdereridlist)
                 print(Detectivenumlist)
@@ -228,6 +229,7 @@ def handle_message(event):
                 print("OuO")
 
                 line_bot_api.push_message(WorkSheet_Game.cell(1, 1).value, [TextMessage(text="現在是第{}天早上~~~".format(DayCount)), TextMessage(text="昨天晚上的死者為 {}".format(str(l)+"號")), TextMessage(text="請開始討論並投票~~~")])
+                WorkSheet_Game.update_cell(1, 3, "Day")
 
                 for j in range(90):
                     time.sleep(1)
@@ -276,6 +278,7 @@ def handle_message(event):
                     break
                 else:
                     message = TextSendMessage(text="現在開始進入第{}天晚上#".format(DayCount+1))
+                    WorkSheet_Game.update_cell(1, 3, "Day")
                     DayCount += 1
 
             elif players_amount < 8:
