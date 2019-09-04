@@ -161,7 +161,7 @@ def handle_message(event):
                             break
                         else:
                             WorkSheet_Game.update_cell(k+1, 4, "Dead")
-                            DeadIdentity = WorkSheet_Game.cell(int(k)+1, 3)
+                            DeadIdentity = WorkSheet_Game.cell(int(k)+1, 3).value
                             if DeadIdentity == "Murderer":
                                 Murderernumlist.remove(k)
                                 Murdereridlist.remove(WorkSheet_Game.cell(k+1, 1).value)
